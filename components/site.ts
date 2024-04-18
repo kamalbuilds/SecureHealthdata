@@ -6,8 +6,8 @@ export const siteConfig = {
     "SecureHealthData",
   mainNav: [
     {
-      title: "Dashboard",
-      href: "/dashboard",
+      title: "Patient",
+      href: "/patient",
     }
   ],
   links: {
