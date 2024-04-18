@@ -34,12 +34,6 @@ const Home: NextPage = () => {
           </h1>
 
           <div className={styles.connect}>
-            <ConnectWallet
-              dropdownPosition={{
-                side: "bottom",
-                align: "center",
-              }}
-            />
 
             {address ? (
               <div className={styles.nft}>

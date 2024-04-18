@@ -5,8 +5,9 @@ import {
   embeddedWallet,
 } from "@thirdweb-dev/react";
 import "../styles/globals.css";
-import { activeChain, factoryAddress } from "../const";
+import {  factoryAddress } from "../const";
 import { Sepolia } from "@thirdweb-dev/chains";
+import { SiteHeader } from "../components/site-header";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }),
       ]}
     >
+      <SiteHeader />
       <Component {...pageProps} />
     </ThirdwebProvider>
   );
