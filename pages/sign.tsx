@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     SignProtocolClient,
     SpMode,
@@ -14,23 +14,50 @@ import { useAddress } from '@thirdweb-dev/react';
 const Sign = () => {
 
     const address = useAddress();
-    console.log("Window>>>", window.ethereum)
+    const HospitalSchemaID = '0x39';
+    const DoctorSchemaID = '0x3a';
+    const AttendantSchemaID = '0x3b';
+    const PatientSchemaID = '0x3c';
+
+    const [SignClient, setSignClient] = useState();
+
+    const initializeSignClient = () => {
+        const client = new SignProtocolClient(SpMode.OnChain, {
+            chain: EvmChains.sepolia,
+            account: address
+        });
+        setSignClient(client);
+        console.log("Client", client, address);
+    }
+
+    useEffect(() => {
+        if (address) {
+            console.log("Window>>>", window.ethereum);
+            initializeSignClient();
+        }
+
+    }, [address])
 
     const [schemaId, setSchemaId] = useState<string>();
 
-    const client = new SignProtocolClient(SpMode.OnChain, {
-        chain: EvmChains.sepolia,
-        account: address,
-    });
-    console.log("Client", client, address);
-
-
     const createSchema = async () => {
-        const res = await client.createSchema({
-            name: "SDK Test",
+        const res = await SignClient.createSchema({
+            name: "Patient Schema",
+            description: 'Details about the patient',
             data: [
-                { name: "contractDetails", type: "string" },
-                { name: "signer", type: "address" }
+                { name: "id", type: "uint256" },
+                { name: "name", type: "string" },
+                { name: "age", type: "uint256" },
+                { name: "gender", type: "string" },
+                { name: "height", type: "string" },
+                { name: "weight", type: "string" },
+                { name: "address", type: "string" },
+                { name: "phoneNumber", type: "uint256" },
+                { name: "email", type: "string" },
+                { name: "registrationDate", type: "string" },
+                { name: "doctorId", type: "uint256" },
+                { name: "hospitalId", type: "uint256" },
+
             ]
         }, {
             getTxHash: (txHash: string) => {
@@ -43,26 +70,15 @@ const Sign = () => {
         setSchemaId(res.schemaId);
     }
 
-    const delegateSchema = async () => {
-        const info = await delegateSignSchema(
-            {
-                name: "SDK Test",
-                data: [
-                    { name: "contractDetails", type: "string" },
-                    { name: "signer", type: "address" }
-                ],
-                registrant: '0xB06572d024CB9c9e3F4938d8bDd6509d935fC37b'
-            },
-            {
-                chain: EvmChains.sepolia,
-                delegationAccount: address,
-            }
-        );
+    // const HospitalSchemaId = '0x8'
 
-        console.log("Info >>>", info);
+    const getSchemaDetails = async (id) => {
+        if (SignClient) {
+            const res = await SignClient.getSchema(id);
+            console.log("REsponse", res);
+        }
+
     }
-
-
 
 
 
@@ -71,7 +87,10 @@ const Sign = () => {
             Sign Protocol
 
             <div onClick={createSchema}>Create Schem</div>
-            <div onClick={delegateSchema}>Delegatee Schem</div>
+            <div onClick={() => getSchemaDetails(PatientSchemaID)}>Get Patient Schema</div>
+            <div onClick={() => getSchemaDetails(HospitalSchemaID)}>Get Hospital Schema</div>
+            <div onClick={() => getSchemaDetails(AttendantSchemaID)}>Get Attendant Schema</div>
+            <div onClick={() => getSchemaDetails(DoctorSchemaID)}>Get Doctor Schema</div>
         </div>
     );
 };
