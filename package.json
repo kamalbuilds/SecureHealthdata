@@ -11,6 +11,7 @@
     "deploy": "next build && next export && npx thirdweb@latest upload out"
   },
   "dependencies": {
+    "@ethsign/sp-sdk": "^0.3.29",
     "@thirdweb-dev/react": "^4.1.17",
     "@thirdweb-dev/sdk": "^4.0.23",
     "clsx": "^2.1.0",
