@@ -6,9 +6,10 @@ import {
   metamaskWallet,
 } from "@thirdweb-dev/react";
 import "../styles/globals.css";
-import {  factoryAddress } from "../const";
+import { factoryAddress } from "../const";
 import { Sepolia } from "@thirdweb-dev/chains";
 import { SiteHeader } from "../components/site-header";
+import { SignProtocolContextProvider } from "../context/SignProtocolContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,15 +18,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       activeChain={Sepolia}
       supportedWallets={[
         metamaskWallet(),
-        
+
         smartWallet(embeddedWallet(), {
           factoryAddress: factoryAddress,
           gasless: true,
         }),
       ]}
     >
-      <SiteHeader />
-      <Component {...pageProps} />
+      <SignProtocolContextProvider>
+        <SiteHeader />
+        <Component {...pageProps} />
+      </SignProtocolContextProvider>
     </ThirdwebProvider>
   );
 }
