@@ -3,6 +3,7 @@ import {
   ThirdwebProvider,
   smartWallet,
   embeddedWallet,
+  metamaskWallet,
 } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 import {  factoryAddress } from "../const";
@@ -15,6 +16,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
       activeChain={Sepolia}
       supportedWallets={[
+        metamaskWallet(),
+        
         smartWallet(embeddedWallet(), {
           factoryAddress: factoryAddress,
           gasless: true,

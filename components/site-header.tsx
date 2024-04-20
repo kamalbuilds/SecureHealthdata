@@ -17,6 +17,7 @@ export function SiteHeader() {
           <nav className="flex items-center space-x-1">
 
             <ConnectWallet
+
               dropdownPosition={{
                 side: "bottom",
                 align: "center",

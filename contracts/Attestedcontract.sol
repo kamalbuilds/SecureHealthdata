@@ -64,11 +64,19 @@ contract MedicalSystem {
         _;
     }
 
-    constructor(address _spInstance, uint64 _schemaId) {
+    constructor(address _spInstance) {
         owner = msg.sender;
         spInstance = ISP(_spInstance);
-        schemaId = _schemaId;
     }
+    
+    function setSPInstance(address instance) external isOwner {
+        spInstance = ISP(instance);
+    }
+
+    function setSchemaID(uint64 schemaId_) external isOwner {
+        schemaId = schemaId_;
+    }
+
 
     function registerHospital(uint256 _id, string memory _name, string memory _address, string memory _specialization) public isOwner {
         hospitals[_id] = Hospital(_name, _address, _specialization);
