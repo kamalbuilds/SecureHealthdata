@@ -7,7 +7,15 @@ const Patient = () => {
     patientId: '',
     patientName: '',
     age: '',
-    address: ''
+    gender: '',
+    height: '',
+    weight: '',
+    address: '',
+    phoneNumner: '',
+    email: '',
+    registrationDate: '',
+    doctorId: '',
+    hospitalId: '',
   });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +25,26 @@ const Patient = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Patient Details:', form);
+
+    // try {
+    //   const res = await SignClient.createAttestation({
+    //     schemaId: HospitalSchemaID,
+    //     data: {
+    //       id: form.hospitalId,
+    //       name: form.hospitalName,
+    //       address: form.address,
+    //       specialization: form.specification,
+    //     },
+    //     indexingValue: form.hospitalId,
+    //   }, {
+    //     getTxHash: (txHash: `0x${string}`) => { console.log("Tx Hash:", txHash) }
+    //   });
+
+    //   console.log("Response", res);
+    // } catch (error) {
+    //   console.log("Error in registering patient", error);
+    // }
+
   };
 
   return (

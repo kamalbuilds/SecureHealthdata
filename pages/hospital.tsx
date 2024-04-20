@@ -1,8 +1,13 @@
 // pages/hospital.tsx
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Head from 'next/head';
+import { SignProtocolContext } from '../context/SignProtocolContext';
 
 const Hospital = () => {
+
+  const { SignClient, HospitalSchemaID } = useContext(SignProtocolContext);
+
+
   const [form, setForm] = useState({
     hospitalId: '',
     hospitalName: '',
@@ -14,9 +19,31 @@ const Hospital = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Hospital Details:', form);
+
+    try {
+      const res = await SignClient.createAttestation({
+        schemaId: HospitalSchemaID,
+        data: {
+          id: form.hospitalId,
+          name: form.hospitalName,
+          address: form.address,
+          specialization: form.specification,
+        },
+        indexingValue: form.hospitalId,
+      }, {
+        getTxHash: (txHash: `0x${string}`) => { console.log("Tx Hash:", txHash) }
+      });
+
+      console.log("Response", res);
+    } catch (error) {
+      console.log("Error in registering hospital", error);
+    }
+
+
+
   };
 
   return (
