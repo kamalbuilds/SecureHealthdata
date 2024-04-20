@@ -16,7 +16,7 @@ contract MedicalSystem {
 
     struct Hospital {
         string name;
-        string address;
+        string hospitaladdress;
         string specialization;
     }
 
@@ -24,7 +24,7 @@ contract MedicalSystem {
         string name;
         string specialization;
         uint256 phoneNumber;
-        string address;
+        string doctoraddress;
     }
 
     struct Patient {
@@ -33,7 +33,7 @@ contract MedicalSystem {
         string gender;
         string height;
         uint256 weight;
-        string address;
+        string patientaddress;
         uint256 phoneNumber;
         string email;
         uint256 registrationDate;
@@ -89,8 +89,8 @@ contract MedicalSystem {
     }
 
     function addPrescription(uint256 _doctorId, uint256 _patientId, string memory _medication, string memory _dosage) public {
-        require(doctors[_doctorId].name[0] != 0, "Doctor does not exist.");
-        require(patients[_patientId].name[0] != 0, "Patient must be registered.");
+        require(bytes(doctors[_doctorId].name).length > 0, "Doctor does not exist.");
+        require(bytes(patients[_patientId].name).length > 0, "Patient must be registered.");
         Prescription memory newPrescription = Prescription({
             doctorId: _doctorId,
             patientId: _patientId,
@@ -107,13 +107,13 @@ contract MedicalSystem {
         Attestation memory attestation = Attestation({
             schemaId: schemaId,
             linkedAttestationId: 0,
-            attestTimestamp: block.timestamp,
+            attestTimestamp: uint64(block.timestamp),
             revokeTimestamp: 0,
             attester: address(this),
             validUntil: 0,
             dataLocation: DataLocation.ONCHAIN,
             revoked: false,
-            recipients: new bytes,
+            recipients: new bytes[](0), // an array of reciepients
             data: data
         });
         spInstance.attest(attestation, "", "", "");
