@@ -8,6 +8,10 @@ export const siteConfig = {
     {
       title: "Patient",
       href: "/patient",
+    },
+    {
+      title: "Doctor",
+      href: "/doctor",
     }
   ],
   links: {
